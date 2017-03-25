@@ -1,5 +1,9 @@
 @extends('default.backend.layout.base')
 
+@section('title')
+    {{$title}}
+@stop
+
 @section('header')
     <?php
     $data['top_menu'] = $top_menu;

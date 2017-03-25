@@ -20,8 +20,8 @@ KindEditor.ready(function (K) {
         allowFlashUpload: false,
         allowMediaUpload: false,
         allowFileUpload: false,
-        uploadJson : '/admin/ajax/upload_json?folder=u1_g1&is_thumg=1&thumg_width=160&thumg_height=120',
-        fileManagerJson : '/admin/ajax/file_manager_json?folder=u1_g1'
+        uploadJson : '/file/uploadjson?folder=u1_g1&is_thumg=1&thumg_width=160&thumg_height=120',
+        fileManagerJson : '/file/manager?folder=u1_g1'
     }
     editor = K.create('.kindEditors', seting);
     K('.choose_pic').click(function() {

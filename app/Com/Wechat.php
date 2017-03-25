@@ -520,7 +520,6 @@ class Wechat {
 	private function text($content){
 		$this->data['Content'] = $content;
 	}
-
 	/**
 	 * 回复音乐信息
 	 * @param  string $content 要回复的音乐

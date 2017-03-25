@@ -22,15 +22,18 @@ Route::controller('teaching', 'Backend\TeachingController');
 Route::controller('exam', 'Backend\ExamController');
 Route::controller('news', 'Backend\NewsController');
 Route::controller('wechat', 'Backend\WechatController');            //微信管理
+
 Route::controller('onewechat', 'Backend\OneWechatController');      //微信管理
 Route::controller('system', 'Backend\SystemController');            //系统设置
+Route::controller('file', 'Backend\FileController');            //文件管理
 
-//Route::controller('wechatapi', 'Frontend\WeixinController');        //系统设置
+Route::get('/image/grayscale', function(){
+    $img = Image::make(public_path('uploads/LaravelAcademy.jpg'))->greyscale();
+    return $img->response('jpg');
+});
 
-Route::post('wechatapi', 'Frontend\WeixinController@getIndex');
-
-
-
+//前台微信API
+Route::controller('wechatapi', 'Frontend\WeixinController');
 
 
 // API 相关[为路由组添加前缀]
@@ -41,15 +44,3 @@ Route::group(['prefix' => 'api', 'namespace' => 'Api'], function(){
 //创建RESTFUL风格路由
 Route::resource('post','PostController');
 
-/**
- * 以下为路由配置实例
- * 路由命名：
- * Route::get('/hello/laravelacademy',['as'=>'academy',function($id){
-    return 'Hello LaravelAcademy！';
-   }]);
-
-    Route::get('/testNamedRoute',function(){
-        return redirect()->route('academy',['id'=>1]);      //跳转带参数
-    });
-
- */

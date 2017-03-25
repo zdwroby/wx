@@ -1,5 +1,9 @@
 @extends('default.backend.layout.base')
 
+@section('title')
+    {{$title}}
+@stop
+
 @section('header')
     <?php
     $data['top_menu'] = $top_menu;
@@ -9,13 +13,16 @@
 @stop
 
 @section('sidebar')
+    <script>
+        var parent_url = '<?php echo $parent_url?>';
+    </script>
     @include('default.backend.layout.sidebar',$child_menu)
 @stop
 
 @section('content')
     <ul class="nav nav-tabs" role="tablist">
         <li role="presentation" class="active"><a href="#home" aria-controls="home" role="tab" data-toggle="tab">公众号列表</a></li>
-        <li role="presentation"><a href="#profile" aria-controls="profile" role="tab" data-toggle="tab">新增公众号</a></li>
+        <li role="presentation"><a href="/wechat/ga?act=add">新增公众号</a></li>
     </ul>
 
     <!-- Tab panes -->
@@ -41,17 +48,20 @@
                         <td>{{$ga->type}}</td>
                         <td>{{$ga->api_token}}</td>
                         <td>{{$ga->api_url}}</td>
-                        <td>{{$ga->create_time}}</td>
-                        <td><a href="/onewechat/menu">管理</a></td>
+                        <td><?php echo date('Y-m-d H:i:s',$ga->create_time);?></td>
+                        <td>
+                            <a href="/wechat/ga?act=edit&id={{$ga->id}}">编辑</a>
+                            <a href="/onewechat/menu?id={{$ga->id}}">管理</a>
+                        </td>
                     </tr>
                 @endforeach
                 </tbody>
             </table>
+            {!! $galist->render() !!}
 
         </div>
-        <div role="tabpanel" class="tab-pane" id="profile">bbb</div>
-        <div role="tabpanel" class="tab-pane" id="messages">ccc</div>
-        <div role="tabpanel" class="tab-pane" id="settings">ddd</div>
+
+
     </div>
 
 

@@ -59,5 +59,9 @@
     </div>
 </div>
 
+@section('js')
+    js
+@show
+
 </body>
 </html>

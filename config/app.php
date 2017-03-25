@@ -108,6 +108,16 @@ return [
     |
     */
 
+    /*
+    |--------------------------------------------------------------------------
+    | 图片上传配置
+    |--------------------------------------------------------------------------
+    */
+    'admin_uploads'=>'admin_uploads',
+    'home_uploads' => 'home_uploads',
+    'admin_max_upload_size' => 2048000,      //2M
+    'home_max_upload_size' => 2048000,      //2M
+
     'providers' => [
 
         /*
@@ -145,6 +155,9 @@ return [
         App\Providers\AuthServiceProvider::class,
         App\Providers\EventServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
+
+        /*roby图片处理*/
+        Intervention\Image\ImageServiceProvider::class,
 
     ],
 
@@ -194,6 +207,9 @@ return [
         'URL'       => Illuminate\Support\Facades\URL::class,
         'Validator' => Illuminate\Support\Facades\Validator::class,
         'View'      => Illuminate\Support\Facades\View::class,
+
+        /*roby添加图片处理门面*/
+        'Image' => Intervention\Image\Facades\Image::class,
 
     ],
 

@@ -16,6 +16,14 @@ class AdminCommController extends Controller
     protected $theme = "default";
     public $data;
     /**
+     * 得到分类表中的各种类型
+     */
+    public function getCateType($name){
+        $row = DB::table('one_category')->where('name', $name)->select('id')->first();
+        $list = DB::table('one_category')->where('pid',$row->id)->select('id','title')->get();
+        return $list;
+    }
+    /**
      * 根据当前顶部菜单<按分组>获取菜单数组
      */
     private function getMenuArr($curr_top_id){
@@ -24,6 +32,7 @@ class AdminCommController extends Controller
         $sub_menu = DB::table('one_menu')
             ->orderBy('sort', 'desc')
             ->having('pid', '=', $curr_top_id)
+            ->having('is_dev', '=', 0)
             ->get();
         $child_menu = array();
         foreach($sub_menu as $k=>$obj){
@@ -38,17 +47,27 @@ class AdminCommController extends Controller
     public function getMenuData($curr_mode,$title)
     {
         //查找当前头部菜单ID
+        $parent_url = '';
         $action = $this->getCurrentAction();
         $url = "/".$curr_mode."/".$action['method'];
-        $row = $this->getRow('one_menu', ['id','pid'], "url", $url);
-        if($row->pid == 0){
+        $row = $this->getRow('one_menu', ['id','pid','url'], "url", $url);
+        if($row->pid == 0){             //是头部顶级菜单
             $this->curr_top_id = $row->id;
-        }else{
-            $this->curr_top_id = $row->pid;
-        }
+            $parent_url = $row->url;
+        }else{                          //是左侧菜单
 
+            $is_exist_child =  DB::table('one_menu')->where('id', '=', $row->pid)->first();
+            if($is_exist_child->pid==0){        //当前菜单为二级菜单
+                $this->curr_top_id = $row->pid;
+                $parent_url = $row->url;
+            }else{                              //当前菜单为三级菜单
+                $this->curr_top_id = $is_exist_child->pid;
+                $parent_url = $is_exist_child->url;
+            }
+        }
         $data = $this->getMenuArr($this->curr_top_id);
         $data['title'] = $title;
+        $data['parent_url'] = $parent_url;
         $data['curr_top_id'] = $this->curr_top_id;
         return $data;
     }
@@ -101,6 +120,14 @@ class AdminCommController extends Controller
         $method = str_replace("get",'', strtolower($method));
         return ['method'=>$method];
         //return ['controller' => $class, 'method' => $method];
+    }
+
+
+    /**
+     * 公用删除
+     */
+    public function getDelete(Request $request){
+        print_r($request->input('id').'fff');
     }
 
 
